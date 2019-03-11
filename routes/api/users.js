@@ -3,9 +3,11 @@ const router = express.Router();
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const keys = require("../../config/keys");
+const passport = require("passport");
 
+const keys = require("../../config/keys");
 const User = require("../../models/User");
+
 /**
  * @route GET api/users/test
  * @description Tests Users route
@@ -105,5 +107,18 @@ router.post("/login", (req, res) => {
     })
     .catch();
 });
+
+/**
+ * @route Get api/users/login
+ * @description Return current user
+ * @access Private
+ */
+router.get(
+  "/current",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.json(req.user);
+  }
+);
 
 module.exports = router;
