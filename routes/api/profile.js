@@ -9,6 +9,9 @@ const Profile = require("../../models/Profile");
 // User profile
 const User = require("../../models/User");
 
+// load profile validaon
+const validateProfileInput = require("../../validation/profile");
+
 /**
  * @route GET api/profile/test
  * @description Tests Profile route
@@ -29,6 +32,7 @@ router.get(
     Profile.findOne({
       user: req.user.id
     })
+      .populate("user", ["name", "avatar"])
       .then(profile => {
         if (!profile) {
           errors.noprofile = "There is no rofile for this user";
@@ -49,6 +53,13 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const { errors, isValid } = validateProfileInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+      res.status(400).json(errors);
+    }
+
     // Get fields
     const profileFields = {};
     profileFields.user = req.user.id;
