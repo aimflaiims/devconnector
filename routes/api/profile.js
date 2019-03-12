@@ -45,6 +45,69 @@ router.get(
 );
 
 /**
+ * @route GET api/profile/all
+ * @description Get all user Profile
+ * @access Public
+ */
+router.get("/all", (req, res) => {
+  const errors = {};
+
+  Profile.find()
+    .populate("user", ["name", "avatar"])
+    .then(profiles => {
+      if (!profiles) {
+        errors.noprofiles = "No profiles";
+        res.status(404).json(errors);
+      }
+      res.json(profiles);
+    })
+    .catch(err => res.status(404).json(err));
+});
+
+/**
+ * @route GET api/profile/handle/:handle
+ * @description Get user Profile by handle
+ * @access Public
+ */
+router.get("/handle/:handle", (req, res) => {
+  const errors = {};
+
+  Profile.findOne({
+    handle: req.params.handle
+  })
+    .populate("user", ["name", "avatar"])
+    .then(profile => {
+      if (!profile) {
+        errors.noprofile = "No profile for this user";
+        res.status(404).json(errors);
+      }
+      res.json(profile);
+    })
+    .catch(err => res.status(404).json(err));
+});
+
+/**
+ * @route GET api/profile/user/:user_id
+ * @description Get user Profile by user id
+ * @access Public
+ */
+router.get("/user/:user_id", (req, res) => {
+  const errors = {};
+  Profile.findOne({
+    handle: req.params.user_id
+  })
+    .populate("user", ["name", "avatar"])
+    .then(profile => {
+      if (!profile) {
+        errors.noprofile = "No profile for this user";
+        res.status(404).json(errors);
+      }
+      res.json(profile);
+    })
+    .catch(err => res.status(404).json(err));
+});
+
+/**
  * @route POST api/profile
  * @description Create current user Profile
  * @access Private
