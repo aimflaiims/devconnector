@@ -1,3 +1,4 @@
 /node_modules
 package-lock.json
 devconnector.code-workspace
+/config/keys_dev.js
