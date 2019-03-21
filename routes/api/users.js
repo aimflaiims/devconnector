@@ -28,7 +28,7 @@ router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if (!isValid) {
-    res.status(400).json(errors);
+    return res.status(400).json(errors);
   }
 
   User.findOne({
@@ -76,7 +76,7 @@ router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
-    res.status(400).json(errors);
+    return res.status(400).json(errors);
   }
 
   const email = req.body.email;
@@ -117,7 +117,7 @@ router.post("/login", (req, res) => {
             );
           } else {
             errors.password = "Password incorrect";
-            res.status(400).json(errors);
+            return res.status(400).json(errors);
           }
         });
       }
@@ -134,7 +134,7 @@ router.get(
   "/current",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    res.json(req.user);
+    return res.json(req.user);
   }
 );
 
