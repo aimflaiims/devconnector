@@ -161,7 +161,9 @@ router.post(
             { user: req.user.id },
             { $set: profileFields },
             { new: true }
-          ).then(profile => res.json(profile));
+          )
+            .then(profile => res.json(profile))
+            .catch(err => res.status(400).json(err));
         } else {
           //  create
           // checkk if handle exist
@@ -170,7 +172,7 @@ router.post(
           }).then(profile => {
             if (profile) {
               errors.handle = "Handle already exist";
-              res.status(400).json(errors);
+              return res.status(400).json(errors);
             } else {
               new Profile(profileFields)
                 .save()
@@ -179,7 +181,7 @@ router.post(
           });
         }
       })
-      .catch();
+      .catch(err => res.status(404).json(err));
   }
 );
 
