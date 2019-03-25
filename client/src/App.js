@@ -19,6 +19,11 @@ import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
+import AddExperience from "./components/add-experience/AddExperience";
+import AddEducation from "./components/add-education/AddEducation";
+import Profiles from "./components/profiles/Profiles";
+import Profile from "./components/profile/Profile";
+
 // import ErrorBoundry from "./components/ErrorBoundry";
 
 // check for login
@@ -65,6 +70,22 @@ class App extends Component {
                   component={EditProfile}
                 />
               </Switch>
+              <Switch>
+                <PrivateRoute
+                  path="/add-experience"
+                  exact
+                  component={AddExperience}
+                />
+              </Switch>
+              <Switch>
+                <PrivateRoute
+                  path="/add-education"
+                  exact
+                  component={AddEducation}
+                />
+              </Switch>
+              <Route path="/profiles" exact component={Profiles} />
+              <Route exact path="/profile/:handle" component={Profile} />
               <Route path="/login" exact component={Login} />
               <Route path="/register" exact component={Register} />
             </div>
