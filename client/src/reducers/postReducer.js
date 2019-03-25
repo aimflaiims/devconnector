@@ -1,3 +1,5 @@
+import { ADD_POST, GET_ERRORS } from "../actions/types";
+
 const initialState = {
   posts: [],
   post: {},
@@ -6,9 +8,11 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case value:
-      break;
-
+    case ADD_POST:
+      return {
+        ...state,
+        posts: [action.payload, ...state.posts]
+      };
     default:
       return state;
   }

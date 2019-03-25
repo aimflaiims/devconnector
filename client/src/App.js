@@ -23,6 +23,7 @@ import AddExperience from "./components/add-experience/AddExperience";
 import AddEducation from "./components/add-education/AddEducation";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
+import Posts from "./components/posts/Posts";
 
 // import ErrorBoundry from "./components/ErrorBoundry";
 
@@ -86,6 +87,9 @@ class App extends Component {
               </Switch>
               <Route path="/profiles" exact component={Profiles} />
               <Route exact path="/profile/:handle" component={Profile} />
+              <Switch>
+                <PrivateRoute path="/feed" exact component={Posts} />
+              </Switch>
               <Route path="/login" exact component={Login} />
               <Route path="/register" exact component={Register} />
             </div>
