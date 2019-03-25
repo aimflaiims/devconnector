@@ -1,25 +1,40 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import Moment from "react-moment";
+import { deleteEducation } from "../../actions/profileActions";
 
 class Education extends Component {
+  onDeleteClick(id) {
+    this.props.deleteEducation(id);
+  }
+
   render() {
     const education = this.props.education.map(edu => (
       <tr key={edu._id}>
         <td>{edu.school}</td>
         <td>{edu.degree}</td>
         <td>
-          {edu.from} - {edu.to}
+          <Moment format="YYYY/MM/DD">{edu.from}</Moment> -
+          {edu.to === null ? (
+            " Now"
+          ) : (
+            <Moment format="YYYY/MM/DD">{edu.to}</Moment>
+          )}
         </td>
         <td>
-          <button className="btn btn-danger">Delete</button>
+          <button
+            onClick={this.onDeleteClick.bind(this, edu._id)}
+            className="btn btn-danger"
+          >
+            Delete
+          </button>
         </td>
       </tr>
     ));
     return (
       <div>
-        <h4 className="mb-2">Education Credentials</h4>
+        <h4 className="mb-4">Education Credentials</h4>
         <table className="table">
           <thead>
             <tr>
@@ -28,12 +43,19 @@ class Education extends Component {
               <th>Years</th>
               <th />
             </tr>
+            {education}
           </thead>
-          <tbody>{education}</tbody>
         </table>
       </div>
     );
   }
 }
 
-export default connect(null)(withRouter(Education));
+Education.propTypes = {
+  deleteEducation: PropTypes.func.isRequired
+};
+
+export default connect(
+  null,
+  { deleteEducation }
+)(Education);
